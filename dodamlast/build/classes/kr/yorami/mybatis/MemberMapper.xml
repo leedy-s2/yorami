@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.yorami.mybatis.MemberMapper">
+ 
+       <select id="memberLogin" parameterType="loginVO" resultType="loginVO">
+       select * from parent where p_id=#{p_id} and p_pw=#{p_pw}
+            
+   </select>
+   
+     
+  <insert id="memberInsert" parameterType="loginVO">
+  		insert into parent values(
+  		#{p_id},
+  		#{p_pw},
+  		#{p_name},
+  		#{p_phone},
+   		#{p_num})
+  </insert>
+     
+         <insert id="lactationInsert" parameterType="Integer">
+  		insert into lac values(
+  		#{b_num}, sysdate, lac_seq.nextval, 0)
+  </insert>
+  
+         
+                <select id="lactationList" parameterType="string" resultType="lactationVO">
+       select * from lac WHERE TO_CHAR(l_time, 'YYYY-MM-DD') =#{l_time} order by l_cnt            
+   </select>
+   
+                    
+                <select id="lactationgraph" parameterType="Integer" resultType="lactationVO">
+       select sum(l_ml) as sum from lac WHERE TO_CHAR(l_time, 'YYYYMMDD') = #{l_time}
+   </select>
+   
+                <select id="laclist" parameterType="string" resultType="lactationVO">
+       select l_ml from lac
+            
+   </select>
+   
+                
+            <update id="lactationUpdate" parameterType="lactationVO">
+    update lac SET l_ml=#{l_ml} WHERE l_cnt=#{l_cnt}
+</update>
+   
+</mapper>
